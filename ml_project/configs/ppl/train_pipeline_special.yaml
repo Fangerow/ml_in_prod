@@ -1,0 +1,6 @@
+model_params:
+  model_name: k_neighbor
+  params:
+    n_neighbors: 3
+split_strategy:
+  num_folds: 5

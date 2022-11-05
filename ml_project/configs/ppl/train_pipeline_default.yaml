@@ -1,0 +1,8 @@
+model_params:
+  model_name: logistic_regression
+  params:
+    max_iter: 120
+    C: 0.9
+split_strategy:
+  num_folds: 5
+
