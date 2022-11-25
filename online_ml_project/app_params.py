@@ -1,3 +1,4 @@
+import numpy as np
 from dataclasses import dataclass
 from pydantic import BaseModel
 from typing import List, Union
@@ -7,11 +8,9 @@ from sklearn.linear_model import LogisticRegression
 SklearnClassifierModel = Union[LogisticRegression, KNeighborsClassifier]
 
 
-@dataclass()
 class XInput(BaseModel):
-    data: List[Union[float, str]]
+    data: List[List[int]]
 
 
-@dataclass()
 class ModelResponse(BaseModel):
-    predict: int
+    predict: np.float64

@@ -1,16 +1,24 @@
 import uvicorn
+import logging
 from fastapi import FastAPI
-from typing import Optional
+from typing import Optional, List
 
-from app_params import XInput
-from model_utils.utils import load_model, SklearnClassifierModel
+from .app_params import XInput, ModelResponse
+from .scr.utils import load_model, SklearnClassifierModel
+from ml_project.logger import initialize_logger
 
 app = FastAPI()
-model: Optional[SklearnClassifierModel] = None
+logger = logging.getLogger(__name__)
+logger = initialize_logger(logger, level=2)
+pretrained_model: Optional[SklearnClassifierModel] = None
 
 
-def predict(data: list, model_: SklearnClassifierModel):
-    return model_.predict(data)
+def make_predict(data: list, model_: SklearnClassifierModel) -> List[ModelResponse]:
+    predictions = model_.predict(data)
+    return [
+        ModelResponse(predict=prediction)
+        for prediction in predictions
+    ]
 
 
 @app.get('/')
@@ -18,18 +26,32 @@ async def main():
     return 'Welcome to the model hub!'
 
 
-@app.get('/predict')
+@app.post('/predict', response_model=List[ModelResponse])
 async def predict(request: XInput):
+    logger.debug(f'{request.data=}')
+    result = make_predict(request.data, pretrained_model)
+    logger.info(f'successful predictions: {result}')
+    return result
+
+
+@app.get("/health")
+def status() -> int:
+    model_status = pretrained_model is not None
+    logger.info(f"Model is{' not ' if not model_status else ' '}ready")
+    if model_status:
+        return 200
+
+
+@app.on_event('startup')
+def get_model():
     global pretrained_model
-    pretrained_model = load_model('/data/model.joblib')
-    return pretrained_model.predict(request)
-
-
-# @app.on_event('startup')
-# def get_model():
-#     global pretrained_model
-#     pretrained_model = load_model('data/model.joblib')
+    logger.info(f"Loading model from 'data/model.joblib'")
+    pretrained_model = load_model('data/model.joblib')
 
 
 if __name__ == '__main__':
-    uvicorn.run('app:app', host='0.0.0.0', port=8000)
+    uvicorn.run('app:app', host='127.0.0.1', port=15000)
+# model = load_model('data/model.joblib')
+# res = predict([[69, 1, 0, 160, 234, 1, 2, 131, 0, 0, 1, 1],
+#                [69, 1, 0, 160, 234, 1, 2, 131, 0, 1, 1, 1]], model_=model)
+# print(res)

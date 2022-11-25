@@ -16,7 +16,6 @@ def load_model(jbl_path: str) -> SklearnClassifierModel:
     """
     if exists(jbl_path):
         model = load(jbl_path)
-        logging.info("model successfully loaded from joblib file")
     else:
         logging.error(f"cant file model weights in {jbl_path}")
         raise FileExistsError
