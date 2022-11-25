@@ -3,8 +3,8 @@ import logging
 from fastapi import FastAPI
 from typing import Optional, List
 
-from .app_params import XInput, ModelResponse
-from .scr.utils import load_model, SklearnClassifierModel
+from online_ml_project.app_params import XInput, ModelResponse
+from online_ml_project.scr.utils import load_model, SklearnClassifierModel
 from ml_project.logger import initialize_logger
 
 app = FastAPI()
