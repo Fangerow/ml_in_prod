@@ -1,30 +1,37 @@
 import requests
-import json
 import logging
 
-from logger import initialize_logger
-from utils import load_data
+from .logger import initialize_logger
+from .utils import load_data
+from app import get_model
 
-
-PATH_TO_DATA = "data/heart_cleveland_upload.csv"
-LOCALHOST = '127.0.0.1'
-PORT = 15000
-DOMAIN = f"{LOCALHOST}:{PORT}"
-ENDPOINT = '/predict'
+cfg = {
+    'data_path': "data/heart_cleveland_upload.csv",
+    'localhost': '127.0.0.1',
+    'port': 15000,
+    'endpoint': '/predict'
+}
 logger = logging.getLogger(__name__)
 
-if __name__ == "__main__":
-    logger = initialize_logger(logger)
+
+def make_pred(cfg: dict, logger_=logger):
+    get_model()
+    url_prefix = f"{cfg['localhost']}:{cfg['port']}"
+    get_model()
+    logger = initialize_logger(logger_)
 
     logger.info("Reading data")
-    data = load_data(PATH_TO_DATA).drop("condition", axis=1)
+    data = load_data(cfg['data_path']).drop("condition", axis=1)
 
     request_data = data.to_numpy().tolist()
-    logger.info(f"Request data samples:\n {request_data[::5]}")
 
     logger.info("Sending post request")
-    response = requests.post(url=f"http://{DOMAIN}/{ENDPOINT}",
+    response = requests.post(url=f"http://{url_prefix}/{cfg['endpoint']}",
                              json={'data': request_data}
                              )
     logger.info(f"Response status code: {response.status_code}")
-    logger.info(f"Response data samples:\n {response.json()[::5]}")
+    logger.info(f"Response data samples:\n {response.json()}")
+
+
+if __name__ == "__main__":
+    make_pred(cfg, logger)

@@ -5,7 +5,7 @@ from typing import Optional, List
 
 from online_ml_project.app_params import XInput, ModelResponse
 from online_ml_project.scr.utils import load_model, SklearnClassifierModel
-from ml_project.logger import initialize_logger
+from online_ml_project.scr.logger import initialize_logger
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
@@ -51,7 +51,4 @@ def get_model():
 
 if __name__ == '__main__':
     uvicorn.run('app:app', host='127.0.0.1', port=15000)
-# model = load_model('data/model.joblib')
-# res = predict([[69, 1, 0, 160, 234, 1, 2, 131, 0, 0, 1, 1],
-#                [69, 1, 0, 160, 234, 1, 2, 131, 0, 1, 1, 1]], model_=model)
-# print(res)
+
