@@ -7,9 +7,9 @@ from app import get_model
 
 cfg = {
     'data_path': "data/heart_cleveland_upload.csv",
-    'localhost': '127.0.0.1',
-    'port': 15000,
-    'endpoint': '/predict'
+    'localhost': '0.0.0.0',
+    'port': 8000,
+    'endpoint': 'predict'
 }
 logger = logging.getLogger(__name__)
 

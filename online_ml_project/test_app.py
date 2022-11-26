@@ -1,12 +1,12 @@
 import json
 from fastapi.testclient import TestClient
 from typing import List
-from .scr.utils import load_model
+from scr.utils import load_model
 
-from online_ml_project.app import app
-from .app import make_predict, get_model
+from app import make_predict, get_model
+from app import app_
 
-client = TestClient(app)
+client = TestClient(app_)
 data_example = [
     [69, 1, 0, 160, 234, 1, 2, 0, 1, 1, 1, 0],
     [35, 1, 3, 126, 282, 0, 2, 1, 0, 0, 0, 2]
@@ -20,6 +20,7 @@ model_example = load_model('data/model.joblib')
 
 
 def test_read_main():
+    print(2)
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == 'Welcome to the model hub!'
@@ -32,6 +33,7 @@ def test_make_prediction():
 
 
 def test_correct_predict():
+    print(2)
     expected_status = 200
     get_model()
     response = client.post(
