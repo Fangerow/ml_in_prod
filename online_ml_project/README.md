@@ -30,7 +30,7 @@ python3 -m scr.requests_api
 python -m pytest test_app.py
 ```
 
-### Оптимизация для образа Docker:
+### Optimization for Docker image:
 
--Использован минимум зависимостей
-- Использован легковесный (базовый для версии 3.9) образ python3.9-slim
+- Minimum of dependencies had been used
+- The lightweight (base for version 3.9) "python3.9-slim image" had been used
