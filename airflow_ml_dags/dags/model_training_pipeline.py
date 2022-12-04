@@ -35,7 +35,7 @@ with DAG(
     )
 
     data_preprocessing = DockerOperator(
-        image="train_validation",
+        image="airflow_main_process",
         command=f"--input-dir {airfl_cfg['raw_data']} --output-dir {airfl_cfg['precessed_data_path']}",
         network_mode="bridge",
         do_xcom_push=False,
@@ -45,7 +45,7 @@ with DAG(
     )
 
     data_split = DockerOperator(
-        image="train_validation",
+        image="airflow_main_process",
         command=f"--input-dir {airfl_cfg['precessed_data_path']} --val-size {airfl_cfg['size']}",
         network_mode="bridge",
         do_xcom_push=False,
@@ -55,7 +55,7 @@ with DAG(
     )
 
     model_training = DockerOperator(
-        image="train_validation",
+        image="airflow_main_process",
         command=f"--input-dir {airfl_cfg['precessed_data_path']} --models-dir {airfl_cfg['pretrained_models']}",
         network_mode="bridge",
         do_xcom_push=False,
@@ -65,7 +65,7 @@ with DAG(
     )
 
     model_validation = DockerOperator(
-        image="train_validation",
+        image="airflow_main_process",
         command=f"--input-dir {airfl_cfg['precessed_data_path']} --models-dir {airfl_cfg['pretrained_models']}",
         network_mode="bridge",
         do_xcom_push=False,
