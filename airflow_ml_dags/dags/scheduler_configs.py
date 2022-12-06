@@ -7,8 +7,8 @@ airfl_cfg = {
     'default_args': {
         'owner': 'airflow',
         'email': ['airflow@example.com'],
-        'email_on_failure': False,
-        'email_on_retry': False,
+        'email_on_failure': ['dux_magii@list.ru'],
+        'email_on_retry': ['dux_magii@list.ru'],
         'retries': 3,
         'retry_delay': timedelta(minutes=1),
     },
@@ -18,6 +18,5 @@ airfl_cfg = {
     'pretrained_models': "/data/models/{{ ds }}",
     'predictions_path': "/data/predictions/{{ ds }}",
     'model_path': Variable.get("model_path"),
-    'size': 0.2,
-    'volumes_path': "/Users/User/Desktop/airlows/oortur/airflow_ml_dags/data",
+    'volumes_path': "/Users/User/Desktop/MADE/mlops/shamankov_nik/airflow_ml_dags/data",
 }

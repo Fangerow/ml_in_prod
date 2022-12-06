@@ -14,9 +14,7 @@ logger = logging.getLogger("predict")
 @click.option("--model-path", required=True)
 def predict(input_dir: str, output_dir: str, model_path: str):
     data = pd.read_csv(join(input_dir, "data.csv"))
-    with open(model_path, "rb") as model_storage:
-        model = joblib.load(model_storage)
-
+    model = joblib.load(model_path)
     predictions = model.predict(data)
     data = pd.DataFrame(predictions, columns=["target"])
 

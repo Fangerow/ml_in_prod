@@ -17,20 +17,22 @@ with DAG(
     start_pipeline = DummyOperator(task_id='start-pipeline')
 
     design_matrix_checking = FileSensor(
-        task_id="wait-for-data",
-        filepath=str(join(airfl_cfg['raw_data'], "data.csv")),
+        task_id="design_matrix_checking",
+        filepath=str(join(airfl_cfg['raw_data'], "/data/data.csv")),
+        # fs_conn_id=1,
         timeout=6000,
         poke_interval=10,
-        retries=100,
+        retries=5,
         mode="poke",
     )
 
     labels_checking = FileSensor(
-        task_id="wait-for-target",
-        filepath=str(join(airfl_cfg['raw_data'], "target.csv")),
+        task_id="labels_checking",
+        filepath=str(join(airfl_cfg['raw_data'], "/data/target.csv")),
+        # fs_conn_id=1,
         timeout=6000,
         poke_interval=10,
-        retries=100,
+        retries=5,
         mode="poke",
     )
 
@@ -46,7 +48,7 @@ with DAG(
 
     data_split = DockerOperator(
         image="airflow_main_process",
-        command=f"--input-dir {airfl_cfg['precessed_data_path']} --val-size {airfl_cfg['size']}",
+        command=f"--input-dir {airfl_cfg['precessed_data_path']}",
         network_mode="bridge",
         do_xcom_push=False,
         task_id="data-split",

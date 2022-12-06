@@ -16,11 +16,11 @@ with DAG(
     start_predict = DummyOperator(task_id='start-predict')
 
     data_checking = FileSensor(
-        task_id="wait-for-data",
-        filepath=str(join(airfl_cfg['raw_data'], "data.csv")),
+        task_id="data_checking",
+        filepath=join(airfl_cfg['raw_data'], "data/data.csv"),
         timeout=6000,
         poke_interval=10,
-        retries=100,
+        retries=10,
         mode="poke",
     )
 

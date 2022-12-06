@@ -15,8 +15,7 @@ logger = logging.getLogger("validate")
 def validate(input_dir: str, models_dir: str):
     logger.info("Model is loading..")
 
-    with open(join(models_dir, "model.pkl"), "rb") as model_storage:
-        model = joblib.load(model_storage)
+    model = joblib.load(join(models_dir, "model.joblib"))
 
     logger.info("Model loaded succesfully, start making predictions..")
     val_data = pd.read_csv(join(input_dir, "val.csv"))

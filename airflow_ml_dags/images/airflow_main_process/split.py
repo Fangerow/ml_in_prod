@@ -9,10 +9,9 @@ logger = logging.getLogger("split")
 
 @click.command()
 @click.option("--input-dir")
-@click.option("--val-size")
-def split(input_dir: str, val_size: float):
+def split(input_dir: str):
     data = pd.read_csv(join(input_dir, "train_data.csv"))
-    train, val = train_test_split(data, test_size=val_size)
+    train, val = train_test_split(data, test_size=0.15)
 
     train.to_csv(join(input_dir, "train.csv"),
                  index=False)

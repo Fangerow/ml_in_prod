@@ -23,8 +23,7 @@ def train(input_dir: str, models_dir: str):
     model.fit(train_matrix, train_labels)
 
     makedirs(models_dir, exist_ok=True)
-    with open(join(models_dir, "model.pkl"), "wb") as model_storage:
-        joblib.dump(model, model_storage)
+    joblib.dump(model, join(models_dir, "model.joblib"))
 
     logger.info("Training ended Successfully")
 
