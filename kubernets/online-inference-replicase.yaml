@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ml
+  labels:
+    app: ml
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ml
+  template:
+    metadata:
+      labels:
+        app: ml
+    spec:
+      containers:
+      - image: mlops_hw2:v8
+        name: ml
